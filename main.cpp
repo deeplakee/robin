@@ -18,24 +18,29 @@ static void repl() {
             printf("\n");
             break;
         }
+
         lexer::Lexer lexer = lexer::Lexer(line);
         List<token::Token> tokenlist = lexer.scanTokens();
 #ifdef PRINT_TOKENLIST
         printTokenList(tokenlist);
 #endif
-        if (lexer.hasError)
+        if (lexer.hasError) {
             std::cerr << "There are lexical errors in the source code" << std::endl;
-        lexer.hasError = false;
+            lexer.hasError = false;
+            continue;
+        }
 
         parser::Parser parser = parser::Parser(tokenlist);
         List<SharedPtr<production::Production>> ast = parser.parserAst();
-        if (parser.hasError)
+        if (parser.hasError) {
             std::cerr << "There are syntax errors in the source code" << std::endl;
-        else {
-            sema::Sema sema = sema::Sema(ast[0]);
-            List<String> irCode = sema.generateIRCODE();
-            printIRCODE(irCode);
+            parser.hasError = false;
+            continue;
         }
+
+        sema::Sema sema = sema::Sema(ast[0]);
+        List<String> irCode = sema.generateIRCODE();
+        printIRCODE(irCode);
     }
 }
 
@@ -72,18 +77,22 @@ static void runFile(const String &path) {
     //打印词法分析结果
     printTokenList(tokenlist);
 #endif
-    if (lexer.hasError)
+
+    if (lexer.hasError) {
         std::cerr << "There are lexical errors in the source code" << std::endl;
+        return;
+    }
 
     parser::Parser parser = parser::Parser(tokenlist);
     List<SharedPtr<production::Production>> ast = parser.parserAst();
-    if (parser.hasError)
+    if (parser.hasError) {
         std::cerr << "There are syntax errors in the source code" << std::endl;
-    else {
-        sema::Sema sema = sema::Sema(ast[0]);
-        List<String> irCode = sema.generateIRCODE();
-        printIRCODE(irCode);
+        return;
     }
+
+    sema::Sema sema = sema::Sema(ast[0]);
+    List<String> irCode = sema.generateIRCODE();
+    printIRCODE(irCode);
 }
 
 int main(int argc, const char *argv[]) {

@@ -59,6 +59,9 @@ namespace parser {
     Parser::Parser(List<token::Token> tokens) : tokens(std::move(tokens)) {}
 
     List<SharedPtr<production::Production>> Parser::parserAst() {
+#ifdef PRINT_PARSER_PROCESS
+        fmt::print("\n=====parse process=====\n");
+#endif
         stateStack.push(0);
         while (true) {
 #ifdef PRINT_PARSER_PROCESS
@@ -123,7 +126,6 @@ namespace parser {
 #ifdef PRINT_PARSER_PROCESS
                     printInfo("before accept");
 #endif
-                    fmt::print("\nInput is parsed!\n");
                     return productions;
                 case symbol::Type::Error:
                     printInfo("before reportParserError");

@@ -3,6 +3,9 @@ project(robin)
 
 set(CMAKE_CXX_STANDARD 17)
 
+option(ROBIN_ENABLE_PRINT_TOKENLIST "Enable PRINT_TOKENLIST definition" OFF)
+option(ROBIN_ENABLE_PRINT_PARSER_PROCESS "Enable PRINT_PARSER_PROCESS definition" OFF)
+
 # 添加fmt库的子目录
 add_subdirectory(fmt-10.2.1)
 
@@ -44,6 +47,14 @@ add_executable(robin main.cpp
         src/ast/codespace.h
 )
 
-
 # 链接fmt库
 target_link_libraries(robin PRIVATE fmt::fmt)
+
+# 根据选项变量的值添加宏定义
+if (ROBIN_ENABLE_PRINT_TOKENLIST)
+    target_compile_definitions(robin PRIVATE PRINT_TOKENLIST)
+endif()
+
+if (ROBIN_ENABLE_PRINT_PARSER_PROCESS)
+    target_compile_definitions(robin PRIVATE PRINT_PARSER_PROCESS)
+endif()

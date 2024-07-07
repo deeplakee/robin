@@ -14,7 +14,6 @@ namespace sema {
 
     List<String> Sema::generateIRCODE() {
         program->visit(this);
-        fmt::print("\nvisit all productions\n");
         return irCode;
     }
 

@@ -7,6 +7,7 @@
 #include "debug.h"
 
 void printTokenList(const List<token::Token> &tokenlist) {
+    fmt::print("\n=======tokenList=======\n");
     for (const auto &token: tokenlist) {
         std::cout << token.toString() << std::endl;
     }
