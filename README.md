@@ -2,7 +2,7 @@
 
 ## 项目介绍：
 
-2024年福州大学编译原理大作业，主要完成 [样例1](./test/test2) 和[样例2](./test/test11)的分析
+2024年福州大学编译原理大作业，主要完成 [样例1](./test/test2) 和[样例2](./test/test11)的分析，输出三地址码。
 
 ## 文件结构
 
@@ -70,4 +70,11 @@ mkdir build && cd build && cmake .. && make                          #linux平�
 ```shell
 mkdir build; cd build; cmake -G "MinGW Makefiles" ..; mingw32-make   #windows平台
 ```
+
+### cmake选项
+
+| 选项                              | 作用                                                       |
+| --------------------------------- | ---------------------------------------------------------- |
+| ROBIN_ENABLE_PRINT_TOKENLIST      | 开启该选项会打印词法分析后得到的所有token，该选项默认为OFF |
+| ROBIN_ENABLE_PRINT_PARSER_PROCESS | 开启该选项会打印语法分析时的规约过程，该选项默认为OFF      |
 
